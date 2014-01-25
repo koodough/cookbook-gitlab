@@ -205,15 +205,7 @@ end
   end
 end
 
-# Precompile assets
-execute 'gitlab-bundle-precompile-assets' do
-  command 'bundle exec rake assets:precompile RAILS_ENV=production'
-  cwd node['gitlab']['app_home']
-  user node['gitlab']['user']
-  group node['gitlab']['group']
-  environment('LANG' => 'en_US.UTF-8', 'LC_ALL' => 'en_US.UTF-8')
-  only_if { Dir["#{node['gitlab']['app_home']}/public/assets/*"].empty? }
-end
+
 
 # logrotate gitlab-shell and gitlab
 logrotate_app 'gitlab' do
@@ -271,6 +263,16 @@ execute 'gitlab-bundle-install' do
   group node['gitlab']['group']
   environment('LANG' => 'en_US.UTF-8', 'LC_ALL' => 'en_US.UTF-8')
   not_if { File.exists?("#{node['gitlab']['app_home']}/vendor/bundle") }
+end
+
+# Precompile assets
+execute 'gitlab-bundle-precompile-assets' do
+  command 'bundle exec rake assets:precompile RAILS_ENV=production'
+  cwd node['gitlab']['app_home']
+  user node['gitlab']['user']
+  group node['gitlab']['group']
+  environment('LANG' => 'en_US.UTF-8', 'LC_ALL' => 'en_US.UTF-8')
+  only_if { Dir["#{node['gitlab']['app_home']}/public/assets/*"].empty? }
 end
 
 # Initialize database
