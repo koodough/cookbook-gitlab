@@ -12,8 +12,8 @@ version          '6.4.0'
   depends cb_depend
 end
 
-depends 'nginx', '<= 2.0.8'
-depends 'yum', '<= 2.4.4'
+depends 'nginx'#, '<= 2.0.8'
+depends 'yum'#, '<= 2.4.4'
 
 %w[ redhat centos scientific amazon debian ubuntu ].each do |os|
   supports os
